@@ -58,7 +58,7 @@ class DAO extends PDO{
     $message .= "\n" . $this->error($query_p, "\n") . "\n";
     if (PHP_OS == "WINNT")
     {
-      if (($file = fopen("zzz-db-error.log", "at")) !== FALSE)
+      if (($file = fopen("db-error.log", "at")) !== FALSE)
       {
         fwrite($file, $message);
         fclose($file);
