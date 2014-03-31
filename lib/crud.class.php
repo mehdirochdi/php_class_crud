@@ -11,15 +11,15 @@ function debug($debug=NULL)
   echo "</pre>";
 }
 
-define("DB_NAME", "android_api");
-define("DB_USER", "root");
-define("DB_PASSWORD", "");
+define("DB_NAME", "you database name");
+define("DB_USER", "user");
+define("DB_PASSWORD", "password");
 
 if(isset($db)==FALSE){
 
     try {
 
-       $db = new DAO(DB_NAME, DB_USER, DB_PASSWORD,$table=null);
+       $db = new DAO(DB_NAME, DB_USER, DB_PASSWORD);
     
     } catch (PDOException $e) {
 
@@ -34,28 +34,18 @@ if(isset($db)==FALSE){
 
 class DAO extends PDO{
    public $table;
-   private $bdd_a;
    private $lastInsertId_a;
    
 
 /*=====================================================================
                                 CONSTRUCTEUR
 =======================================================================*/ 
-  public function __construct($dsn_p, $username_p, $password_p,$table)
+  public function __construct($dsn_p, $username_p, $password_p)
   {
     parent::__construct("mysql:host=localhost;dbname=$dsn_p", $username_p, $password_p);
     $this->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE);
     $this->lastInsertId_a = 0;
     $this->bdd_a = $dsn_p;
-    echo $table;
-    if(isset($table)){$this->table = $table;}
-    if(empty($this->table)){
-      echo "vide";
-    }
-    else
-    {echo "non vide";}
-
-
   }
 /*=====================================================================
                            METHODE SEND ERROR
@@ -224,19 +214,6 @@ public function table($table){
     return $this->table;
   }
 /*=====================================================================
-                             METHODE SHOW CHAMPS TABLE 
-=======================================================================*/
-public function getFieldsName($tableName){
-
-  $res = $this->query("SHOW COLUMNS FROM $tableName");
-  $fields = $res->fetchAll(PDO::FETCH_ASSOC);
-  foreach ($fields as $field) {
-    $fieldNames[] = $field['Field']; 
-  }
-  $data[$tableName] = array($fieldNames);
-  return $data;
-}
-/*=====================================================================
                              METHODE Find 
 =======================================================================*/
   public function find($operator,$params=array()){
@@ -262,7 +239,7 @@ public function getFieldsName($tableName){
       else
       {
         foreach ($params['fields'] as $field): // j'ai definit les champs donc je les extrait
-          $requette .="`$field`,";
+          $requette .="$field,";
         endforeach;
         $requette=substr($requette,0,-1); // suprime le dernier AND du requette
       }
@@ -280,13 +257,19 @@ public function getFieldsName($tableName){
     /*===
       param alias
     */ 
-      if(!empty($params['alias'])){ $requette .=" AS `".$params['alias']."`"; }
-    
+      if(!empty($params['alias'])){ $requette .=" AS `".$params['alias']."` "; }
+
     /*===
       param jointure de type LEFT joins or RIGTH joins
-    */    
+    */   
       if(!empty($params['joins'])):
-      
+        $joins = $params['joins'];
+        if(is_array($joins['tables']) && is_array($joins['alias']) && is_array($joins['type']) && is_array($joins['condition'])):
+          $count = count($joins['tables']);
+          for($i=0;$i<$count;$i++){
+            $requette .=$joins['type'][$i]." JOIN `".$joins['tables'][$i]."` AS `".$joins['alias'][$i]."` ON ".$joins['condition'][$i]." ";
+          }
+        endif;
       endif;
     /*===
       param Conditions WHERE
@@ -296,7 +279,7 @@ public function getFieldsName($tableName){
           $requette .=" WHERE ";
           foreach ($params['conditions'] as $key => $value) {
           
-            $requette .="`$key` = '$value' AND ";
+            $requette .="$key = '$value' AND ";
           }
           $requette=substr($requette,0,-4); // suprime le dernier AND du requette
         }else{
@@ -325,7 +308,6 @@ public function getFieldsName($tableName){
        /*===
         EXECUTION DU REQUETE VIA FONCTION QUERY
        */
-        $dataKey = array();
         if (($res = $this->query($requette)) !== FALSE)
         {
           if($res=='0'){ // j'ai une erreur en sql
@@ -338,9 +320,7 @@ public function getFieldsName($tableName){
             }
           }
         }
-
-         $donnees[$this->table] = $row ; // RETURN RESULTAT VIA UN TABLEAU ARRAY
-         return $donnees;
+         return $row; // RETURN RESULTAT VIA UN TABLEAU ARRAY
   }
     
 }

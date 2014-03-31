@@ -1,3 +1,9 @@
+before Rename DataBase  in Lib/ crud.class.php
+
+define("DB_NAME", "you database name");
+define("DB_USER", "user");
+define("DB_PASSWORD", "password");
+/**********************AFTER YOU INCLUDE PHP CLASS Crud.class.php*********************/
 PHP Class crud.class.php
 
 how us it : require("lib/crud.class.php");
