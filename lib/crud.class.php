@@ -16,7 +16,7 @@
 * GNU General Public License for more details.
 * 
 * @category   Database
-* @package    CRUD
+* @package    CRUD (Create Read Update Delete)
 * @author     Mehdi RCHDI <mehdi.rochdi@gmail.com>
 * @copyright  2009-2014 Mehdi ROCHDI / Beone.ma
 * @license    http://www.gnu.org/licenses/  GNU General Public License
