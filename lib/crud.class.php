@@ -1,17 +1,57 @@
 <?php
-define("DB_NAME", "crud_db"); // DATA NAME
-define("DB_USER", "root");   // USER
-define("DB_PASSWORD", "");  // PASSWORD
+/**
+* Save-find-Delete-deleteById-Delete-query
+*
+* PHP version 5
+*
+* Copyright (C) 2014  Mehdi ROCHDI / Beone Advertising
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* @category   Database
+* @package    CRUD
+* @author     Mehdi RCHDI <mehdi.rochdi@gmail.com>
+* @copyright  2009-2014 Mehdi ROCHDI / Beone.ma
+* @license    http://www.gnu.org/licenses/  GNU General Public License
+* @link       https://github.com/sooprano/php_class_crud
+* @since      File available since Release 1.0.0
+*
+* The purpose of this class is to create an interface for a more fluid and simple interaction with MYSQL 
+* database which is more intuitive.
+* is using insertion methods (save), update (save) and passes the id as key parameter, data search (find),
+* and finally join supportation complex data deletion (delete) (deleteById) and (deleteAll deletion all data)
+*/
+
+/**
+* Creates an instance of the CRUD object and opens or reuses a connection
+* to a database.
+* 
+* @param string DATA_BASE Database to establish connection with
+* @param string USER     User to login to a database
+* @param string $PASSWORD     Password to login to a database
+* 
+* 
+*/
+define("DATA_BASE", "crud_db"); // DATA NAME
+define("USER", "root");   // USER
+define("PASSWORD", "");  // PASSWORD
 if(isset($db)==FALSE){
   try {
-  $db = new DAO(DB_NAME, DB_USER, DB_PASSWORD);}
+  $db = new Crud(DATA_BASE, USER, PASSWORD);}
   catch (PDOException $e) {exit("Echec de la connexion".$e->getMessage());}
 }
 /////////////////////////////////////////////////////////////////////////////
 //                      CLASS DAO EXTENDS CLass PDO
 ////////////////////////////////////////////////////////////////////////////
 
-class DAO extends PDO{
+class Crud extends PDO{
   public $table;
   private $lastInsertId_a; 
   public function __construct($dsn_p, $username_p, $password_p)
@@ -36,7 +76,7 @@ public function getFieldsName(){
 /*=====================================================================
                            METHODE SEND ERROR
 ======================================================================*/
-  public function sendError($query_p){ 
+  private function sendError($query_p){ 
     $message = $_SERVER['SCRIPT_FILENAME'].'?'.$_SERVER['QUERY_STRING'] . "\n"
              . 'line = '. __line__ . "\n"
              . date("d/m/Y H:i:s") . "\n";
@@ -56,7 +96,7 @@ public function getFieldsName(){
 /*======================================================================
                             METHODE Error
 ========================================================================*/
-  public function error($query_p=null, $crlf_p="<br/>"){
+  private function error($query_p=null, $crlf_p="<br/>"){
     $message = "";
     if (strlen($query_p) > 0){$message .= $query_p . $crlf_p;}
     $error = $this->errorInfo();
