@@ -136,13 +136,5 @@ require 'lib/Crud.class.php';
 ?>
 ```
 
-### Contributing
------------------
-1. Fork it.
-2. Create a branch (`git checkout -b my_branch`)
-3. Commit your changes (`git commit -am "Added something"`)
-4. Push to the branch (`git push origin my_branch`)
-5. Create an Issue with a link to your branch
-6. Enjoy a refreshing Coke and wait
 
 
