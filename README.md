@@ -7,24 +7,24 @@ it's interraction with your mysql database, with easy methods inspire since fram
 ### Setup
 -----------------
 
+##### Connect to your database . (Crud.class.php)
 ```php
-require 'lib/Crud.class.php';
-```
-
-### Getting Started
------------------
-```php
-require 'lib/Crud.class.php';
-
 define("DATA_BASE", "your_data"); // DATA NAME
 define("USER", "user");   // USER
 define("PASSWORD", "password");  // PASSWORD
 ```
 
+### Getting Started
+-----------------
+
+##### Create index.php file . (index.php)
+```php
+require 'lib/Crud.class.php';
+```
+
 ### Examples
 -----------------
 
-##### Add data.
 ```php
 <?php
 	//ADDING DATA
