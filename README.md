@@ -1,5 +1,8 @@
-PHP Crud Class
+PHP Crud Class V1
 =============
+by Mehdi rochdi
+
+Class Crud extends PDO . working for MySQL. It uses PDO driver.
 
 This is a class of CRUD (Creat, Read, Update and Delete) you guessed it,
 it's interraction with your mysql database, with easy methods inspire since framworks.
@@ -7,7 +10,7 @@ it's interraction with your mysql database, with easy methods inspire since fram
 ### Setup
 -----------------
 
-##### Connect to your database . (Crud.class.php)
+##### Initialize Data base connection . (Crud.class.php)
 ```php
 define("DATA_BASE", "your_data"); // DATA NAME
 define("USER", "user");   // USER
@@ -129,10 +132,17 @@ require 'lib/Crud.class.php';
 	//  LEFT JOIN `primary_table2` AS `pt2` ON pt2.key = ft.key_primary_table2  
 	//  WHERE ft.key_primary_table1 = 'value'
 
-	debug($data4); 
+	debug($data5); 
 ?>
 ```
 
-
+### Contributing
+-----------------
+1. Fork it.
+2. Create a branch (`git checkout -b my_branch`)
+3. Commit your changes (`git commit -am "Added something"`)
+4. Push to the branch (`git push origin my_branch`)
+5. Create an Issue with a link to your branch
+6. Enjoy a refreshing Coke and wait
 
 
