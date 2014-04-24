@@ -39,9 +39,14 @@
 * 
 * 
 */
+/*define("DATA_BASE", "encgsfor_encg_db"); // DATA NAME
+define("USER", "encgsfor_encg");   // USER
+define("PASSWORD", "encg-forum-2014");  // PASSWORD*/
+
 define("DATA_BASE", "crud_db"); // DATA NAME
 define("USER", "root");   // USER
 define("PASSWORD", "");  // PASSWORD
+
 if(isset($db)==FALSE){
   try {
   $db = new Crud(DATA_BASE, USER, PASSWORD);}
@@ -257,13 +262,14 @@ public function find($operator,$params=array()){
     }else{$requette .= $params['order']." ";}
   }
   //LIMIT
-  $requette.= $limit;
+  return $requette.= $limit;
+
   //EXECUTION DU REQUETE VIA FONCTION QUERY
   if (($res = $this->query($requette)) !== FALSE){
     if($res=='0'){ return "Erreur Find";} // I HAVE ERROR SQL
     else{ 
       $row = $res->fetchAll(PDO::FETCH_ASSOC);
-      if(count($row)==0){return "empty";} // IF QUERY RETURN EMPTY
+      if(count($row)==0){return 0 ;} // IF QUERY RETURN EMPTY
     }
   }
   return $row; // RETURN VALUES AS ARRAY
