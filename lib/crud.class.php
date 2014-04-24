@@ -253,7 +253,7 @@ public function find($operator,$params=array()){
   if(!empty($params['order'])){
     $requette .="ORDER BY ";
     if(is_array($params['order'])){
-      foreach ($params['order'] as $key => $value){$requette .="`$key` $value";}
+      foreach ($params['order'] as $key => $value){$requette .="$key $value";}
     }else{$requette .= $params['order']." ";}
   }
   //LIMIT
