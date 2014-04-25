@@ -283,10 +283,7 @@ public function find($operator,$params=array()){
                     Debug
 ================================================*/
 function debug($debug=NULL){
-  echo "<pre>";
-  echo "<h2><strong>".__FILE__."</strong></h2><br>";
-  print_r($debug);
-  echo "</pre>";
+  echo "<pre><h2><strong>".__FILE__."</strong></h2><br />" . print_r($debug) . "</pre>";
 }
 
 ?>
