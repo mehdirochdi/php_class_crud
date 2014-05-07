@@ -135,6 +135,11 @@ require 'lib/Crud.class.php';
 	debug($data5); 
 ?>
 ```
-
+##### if you want to write your own queries in SQL
+```php
+<?php
+$data = "SELECT * FROM Your table"
+?>
+```
 
 

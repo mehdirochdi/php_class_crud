@@ -6,23 +6,14 @@
 *
 * Copyright (C) 2014  Mehdi ROCHDI / Beone Advertising
 *
-* Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without li`ation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is furnished
- * to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
 * 
 * @category   Database
 * @package    CRUD (Create Read Update Delete)
@@ -48,9 +39,13 @@
 * 
 * 
 */
-define("DATA_BASE", "table_name"); // DATA NAME
-define("USER", "user_name");   // USER
-define("PASSWORD", "password");  // PASSWORD
+/*define("DATA_BASE", "stargarn_stargarniture_db"); // DATA NAME
+define("USER", "stargarn_star");   // USER
+define("PASSWORD", "star-2014");  // PASSWORD*/
+
+define("DATA_BASE", "crud_db"); // DATA NAME
+define("USER", "root");   // USER
+define("PASSWORD", "");  // PASSWORD
 
 if(isset($db)==FALSE){
   try {
@@ -66,7 +61,7 @@ class Crud extends PDO{
   private $lastInsertId_a; 
   public function __construct($dsn_p, $username_p, $password_p)
   {
-    parent::__construct("mysql:host=localhost;dbname=$dsn_p", $username_p, $password_p);
+    parent::__construct("mysql:host=localhost;dbname=$dsn_p;charset=UTF8", $username_p, $password_p);
     $this->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE);
     $this->lastInsertId_a = 0;
   }
@@ -124,7 +119,13 @@ public function getFieldsName(){
       $this->sendError($query_p);
       $result = 0;
     }
-    return $result;
+    if($result=='0'){ // I HAVE ERROR SQL
+      return "Erreur Find";
+    }else{ 
+      $row = $result->fetchAll(PDO::FETCH_ASSOC);
+      if(count($row)==0){return 0 ;} // IF QUERY RETURN EMPTY
+    }
+    return $row;
   }
 /*===================================================================
                       METHODE SAVE AND UPDATE
@@ -261,22 +262,31 @@ public function find($operator,$params=array()){
   }
   //PARAM ORDER
   if(!empty($params['order'])){
-    $requette .="ORDER BY ";
+    $requette .=" ORDER BY ";
     if(is_array($params['order'])){
-      foreach ($params['order'] as $key => $value){$requette .="$key $value";}
-    }else{$requette .= $params['order']." ";}
+      foreach ($params['order'] as $key => $value){
+        if(is_numeric($key)){
+          $requette .="$value";
+        }else{
+          
+          $requette .="`$key` $value";
+        }
+        
+      }
+    }else{$requette .= $params['order'];}
   }
   //LIMIT
   $requette.= $limit;
   //EXECUTION DU REQUETE VIA FONCTION QUERY
-  if (($res = $this->query($requette)) !== FALSE){
-    if($res=='0'){ return "Erreur Find";} // I HAVE ERROR SQL
+  return $this->query($requette);
+  /*if (($res = $this->query($requette)) !== FALSE){
+    /*if($res=='0'){ return "Erreur Find";} // I HAVE ERROR SQL
     else{ 
       $row = $res->fetchAll(PDO::FETCH_ASSOC);
       if(count($row)==0){return 0 ;} // IF QUERY RETURN EMPTY
-    }
-  }
-  return $row; // RETURN VALUES AS ARRAY
+    }*/
+  //}
+  //return $row; // RETURN VALUES AS ARRAY
 }
 }
 /*==============================================
