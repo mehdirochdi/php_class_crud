@@ -43,9 +43,9 @@
 define("USER", "stargarn_star");   // USER
 define("PASSWORD", "star-2014");  // PASSWORD*/
 
-define("DATA_BASE", "crud_db"); // DATA NAME
-define("USER", "root");   // USER
-define("PASSWORD", "");  // PASSWORD
+define("DATA_BASE", "your dbname"); // DATA NAME
+define("USER", "username");   // USER
+define("PASSWORD", "password");  // PASSWORD
 
 if(isset($db)==FALSE){
   try {
@@ -115,7 +115,7 @@ public function getFieldsName(){
 =======================================================================*/
   public function query($query_p){
     $result = parent::query($query_p);
-    if($result === FALSE){
+    if($result === FALSE ){
       $this->sendError($query_p);
       $result = 0;
     }
@@ -123,7 +123,8 @@ public function getFieldsName(){
       return "Erreur Find";
     }else{ 
       $row = $result->fetchAll(PDO::FETCH_ASSOC);
-      if(count($row)==0){return 0 ;} // IF QUERY RETURN EMPTY
+      if(count($row)==0)
+      {return 0 ;} // IF QUERY RETURN EMPTY
     }
     return $row;
   }
