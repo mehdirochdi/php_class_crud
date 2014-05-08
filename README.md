@@ -12,8 +12,8 @@ it's interraction with your mysql database, with easy methods inspire since fram
 
 ##### Initialize Data base connection . (Crud.class.php)
 ```php
-define("DATA_BASE", "your_data"); // DATA NAME
-define("USER", "user");   // USER
+define("DATA_BASE", "your dbname"); // DATA NAME
+define("USER", "username");   // USER
 define("PASSWORD", "password");  // PASSWORD
 ```
 
