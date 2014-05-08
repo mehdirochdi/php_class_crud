@@ -41,6 +41,9 @@ require 'lib/Crud.class.php';
 	if($datas !==FALSE){
 		echo "data success"; // data is added successfully
 	}
+
+	// Get last insert ID
+	echo $db->getLastId();
 ?>
 ```
 ##### Update data.

@@ -39,10 +39,6 @@
 * 
 * 
 */
-/*define("DATA_BASE", "stargarn_stargarniture_db"); // DATA NAME
-define("USER", "stargarn_star");   // USER
-define("PASSWORD", "star-2014");  // PASSWORD*/
-
 define("DATA_BASE", "your dbname"); // DATA NAME
 define("USER", "username");   // USER
 define("PASSWORD", "password");  // PASSWORD
@@ -92,10 +88,7 @@ public function getFieldsName(){
         fclose($file);
         echo"<br><a target='_blank' href='db-error.log'>db-error.log</a>";
       }
-    }else{ // si je suis en ligne j'envoi l'erreur par email avec fichier joint
-
-      // envoyer un email SMTP
-    }
+    }else{ echo $message; } //if I am online I send the error by email with attached file
   }
   
 /*======================================================================
@@ -123,10 +116,9 @@ public function getFieldsName(){
       return "Erreur Find";
     }else{ 
       $row = $result->fetchAll(PDO::FETCH_ASSOC);
-      if(count($row)==0)
-      {return 0 ;} // IF QUERY RETURN EMPTY
+      if(count($row)==0){return 0;} // IF QUERY RETURN EMPTY
     }
-    return $row;
+    return $row; // RETURN VALUES AS ARRAY
   }
 /*===================================================================
                       METHODE SAVE AND UPDATE
@@ -266,13 +258,8 @@ public function find($operator,$params=array()){
     $requette .=" ORDER BY ";
     if(is_array($params['order'])){
       foreach ($params['order'] as $key => $value){
-        if(is_numeric($key)){
-          $requette .="$value";
-        }else{
-          
-          $requette .="`$key` $value";
-        }
-        
+        if(is_numeric($key)){ $requette .="$value"; }
+        else{ $requette .="`$key` $value"; }
       }
     }else{$requette .= $params['order'];}
   }
@@ -280,24 +267,13 @@ public function find($operator,$params=array()){
   $requette.= $limit;
   //EXECUTION DU REQUETE VIA FONCTION QUERY
   return $this->query($requette);
-  /*if (($res = $this->query($requette)) !== FALSE){
-    /*if($res=='0'){ return "Erreur Find";} // I HAVE ERROR SQL
-    else{ 
-      $row = $res->fetchAll(PDO::FETCH_ASSOC);
-      if(count($row)==0){return 0 ;} // IF QUERY RETURN EMPTY
-    }*/
-  //}
-  //return $row; // RETURN VALUES AS ARRAY
-}
+  }
 }
 /*==============================================
                     Debug
 ================================================*/
 function debug($debug=NULL){
-  echo "<pre>";
-  echo "<h2><strong>".__FILE__."</strong></h2><br>";
-  print_r($debug);
-  echo "</pre>";
+  echo "<pre><h2><strong>".__FILE__."</strong></h2><br />" . print_r($debug) . "</pre>";
 }
 
 ?>
